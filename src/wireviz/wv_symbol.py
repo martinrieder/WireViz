@@ -449,6 +449,9 @@ class _Renderer:
         height = self.max_y - self.min_y + 2 * MARGIN
 
         svg = [
+            # The XML declaration is required for Graphviz to recognize the
+            # file as an SVG image (it detects the type by magic header).
+            '<?xml version="1.0" encoding="UTF-8"?>',
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{_fmt(width)}mm" '
             f'height="{_fmt(height)}mm" viewBox="{_fmt(min_x)} {_fmt(min_y)} '
             f'{_fmt(width)} {_fmt(height)}">',

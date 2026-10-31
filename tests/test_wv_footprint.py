@@ -27,7 +27,8 @@ def footprint():
 
 def test_render_footprint_svg(footprint):
     svg, width_mm, height_mm = render_footprint_svg(footprint)
-    assert svg.startswith("<svg")
+    assert svg.startswith('<?xml version="1.0" encoding="UTF-8"?>')
+    assert "<svg" in svg
     assert svg.endswith("</svg>")
     # 4 round pads + 4 drill holes + pin 1 marker
     assert svg.count("<circle") == 9

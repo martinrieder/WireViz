@@ -31,7 +31,8 @@ def symbol(library):
 
 def test_render_symbol_svg(library, symbol):
     svg, width_mm, height_mm = render_symbol_svg(symbol, library)
-    assert svg.startswith("<svg")
+    assert svg.startswith('<?xml version="1.0" encoding="UTF-8"?>')
+    assert "<svg" in svg
     assert svg.endswith("</svg>")
     # one body rectangle, filled with the background color
     assert svg.count("<rect") == 1
