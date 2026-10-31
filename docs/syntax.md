@@ -49,6 +49,7 @@ tweak:  # optional tweaking of .gv output
   subtype: <str>   
   color: <color>  # see below
   image: <image>  # see below
+  footprint: <footprint>  # see below
   notes: <str>   
 
   # product information (all optional)
@@ -541,6 +542,28 @@ image:
 For more fine grained control over the image parameters, please see [`advanced_image_usage.md`](advanced_image_usage.md).
 
 
+## KiCad footprints
+
+Connectors can also show a rendered top view of a KiCad footprint, taken from a KiCad footprint library (a `.pretty` directory) or a single `.kicad_mod` file. It is rendered as an SVG image showing the copper pads (including drill holes and pad numbers) and the silkscreen, fabrication, and courtyard layers, and is included in the connector node like any other image (see above).
+
+```yaml
+footprint:
+  library: <path>       # path to a .pretty footprint library directory
+                         # or directly to a .kicad_mod file
+  part: <str>           # footprint name (file name without .kicad_mod);
+                         # required if library is a directory
+  # optional parameters:
+  caption: <str>        # text to display below the footprint image
+  bgcolor: <color>      # Background color of entry in diagram component box
+  width: <int>          # range: 1~65535; unit: points; default: 200
+  height: <int>         # range: 1~65535; unit: points
+  # if only one dimension (width/height) is specified,
+  # the other is calculated from the footprint's aspect ratio.
+```
+
+Relative library paths are resolved like image paths (see above). Rendering requires the `kiutils` package. Only front-side layers (`F.SilkS`, `F.Fab`, `F.Courtyard`) and copper pads are drawn; `fp_text` items are not rendered.
+
+
 ## Multiline strings
 
 The following attributes accept multiline strings:
@@ -552,6 +575,7 @@ The following attributes accept multiline strings:
 - `supplier`
 - `spn`
 - `image.caption`
+- `footprint.caption`
 - `tweak.append`
 
 ### Method 1

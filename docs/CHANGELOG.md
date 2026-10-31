@@ -1,5 +1,11 @@
 # Change Log
 
+## [Unreleased]
+
+### New features
+
+- Render KiCad footprints (`.kicad_mod` files from `.pretty` footprint libraries) as connector images using the new `footprint` attribute (requires the new `kiutils` dependency)
+
 ## [0.4.1] (2024-07-13)
 
 ### Improvements to help reported issues
