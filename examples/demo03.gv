@@ -42,7 +42,7 @@ graph {
   <table border="0" cellspacing="0" cellpadding="3" cellborder="1"><tr>
    <td balign="left">
     <table border="0" cellspacing="0" cellborder="0"><tr>
-     <td width="200" height="65" fixedsize="true"><img scale="both" src="/data/data/com.termux/files/usr/tmp/wireviz-footprints/DemoHeader_1x04_P2.54mm-fb3cbb43.svg"/></td>
+     <td width="120" height="39" fixedsize="true"><img scale="both" src="/data/data/com.termux/files/usr/tmp/wireviz-footprints/DemoHeader_1x04_P2.54mm-fb3cbb43.svg"/></td>
     </tr></table>
    </td>
   </tr></table>
@@ -87,7 +87,7 @@ graph {
   <table border="0" cellspacing="0" cellpadding="3" cellborder="1"><tr>
    <td balign="left" sides="TLR">
     <table border="0" cellspacing="0" cellborder="0"><tr>
-     <td width="200" height="65" fixedsize="true"><img scale="both" src="/data/data/com.termux/files/usr/tmp/wireviz-footprints/DemoHeader_1x04_P2.54mm-fb3cbb43.svg"/></td>
+     <td width="120" height="39" fixedsize="true"><img scale="both" src="/data/data/com.termux/files/usr/tmp/wireviz-footprints/DemoHeader_1x04_P2.54mm-fb3cbb43.svg"/></td>
     </tr></table>
    </td>
   </tr></table>
