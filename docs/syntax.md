@@ -1,4 +1,4 @@
-# WireViz Syntax
+successfully downloaded text file (SHA: 431535c252438637741c5fef178e8b654a987d19)# WireViz Syntax
 
 ## Main sections
 
@@ -544,7 +544,7 @@ For more fine grained control over the image parameters, please see [`advanced_i
 
 ## KiCad footprints
 
-Connectors can also show a 2D pinout view of the connector, derived from a KiCad footprint taken from a KiCad footprint library (a `.pretty` directory) or a single `.kicad_mod` file. The footprint's pads define the pin positions and sizes; the rendered SVG shows the connector housing, one pin per numbered pad (pin 1 with a thicker outline), mounting holes, and the pin numbers, and is included in the connector node like any other image (see above).
+Connectors can also show a rendered top view of a KiCad footprint, taken from a KiCad footprint library (a `.pretty` directory) or a single `.kicad_mod` file. It is rendered as an SVG image showing the copper pads (including drill holes and pad numbers) and the silkscreen, fabrication, and courtyard layers, and is included in the connector node like any other image (see above).
 
 ```yaml
 footprint:
@@ -561,7 +561,7 @@ footprint:
   # the other is calculated from the footprint's aspect ratio.
 ```
 
-Relative library paths are resolved like image paths (see above). Rendering requires the `kiutils` package. Only the pads are evaluated; silkscreen, fabrication, and courtyard graphics and `fp_text` items are not rendered.
+Relative library paths are resolved like image paths (see above). Rendering requires the `kiutils` package. Only front-side layers (`F.SilkS`, `F.Fab`, `F.Courtyard`) and copper pads are drawn; `fp_text` items are not rendered.
 
 
 ## Multiline strings

@@ -1,10 +1,10 @@
-# Change Log
+successfully downloaded text file (SHA: 1e12b4bec49555761ea220720f4cbfbe9ea7baa7)# Change Log
 
 ## [Unreleased]
 
 ### New features
 
-- Show a 2D connector pinout view (housing, pins, and pin numbers) derived from a KiCad footprint (`.kicad_mod` file from a `.pretty` footprint library) using the new `footprint` attribute (requires the new `kiutils` dependency)
+- Render KiCad footprints (`.kicad_mod` files from `.pretty` footprint libraries) as connector images using the new `footprint` attribute (requires the new `kiutils` dependency)
 
 ## [0.4.1] (2024-07-13)
 
