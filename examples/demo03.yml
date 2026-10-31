@@ -14,7 +14,7 @@ connectors:
     footprint:
       library: resources/kicad-footprints/DemoHeader.pretty
       part: DemoHeader_1x04_P2.54mm
-      caption: top view
+      caption: pinout
 
 cables:
   W1:
