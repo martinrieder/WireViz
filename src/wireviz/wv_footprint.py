@@ -349,7 +349,7 @@ class _Renderer:
 
     # -- assembly ----------------------------------------------------------
 
-    def run(self) -> Tuple[str, float, float]:
+    def run(self, width_pt=None, height_pt=None) -> Tuple[str, float, float]:
         for item in self.footprint.graphicItems:
             layer = getattr(item, "layer", None)
             if not layer:
@@ -389,12 +389,27 @@ class _Renderer:
         width = self.max_x - self.min_x + 2 * MARGIN
         height = self.max_y - self.min_y + 2 * MARGIN
 
+        # Emit the width/height attributes in points when a display size is
+        # requested: Graphviz parses these attributes to determine the
+        # image's natural size, and the PNG renderer mis-scales images
+        # whose natural size is given in other units (it draws them several
+        # times too large). Matching the natural size to the requested
+        # size keeps the PNG and SVG output consistent.
+        if width_pt is None and height_pt is not None:
+            width_pt = round(height_pt * width / height)
+        elif height_pt is None and width_pt is not None:
+            height_pt = round(width_pt * height / width)
+        if width_pt is not None:
+            size_attrs = f'width="{_fmt(width_pt)}pt" height="{_fmt(height_pt)}pt"'
+        else:
+            size_attrs = f'width="{_fmt(width)}mm" height="{_fmt(height)}mm"'
+
         svg = [
             # The XML declaration is required for Graphviz to recognize the
             # file as an SVG image (it detects the type by magic header).
             '<?xml version="1.0" encoding="UTF-8"?>',
-            f'<svg xmlns="http://www.w3.org/2000/svg" width="{_fmt(width)}mm" '
-            f'height="{_fmt(height)}mm" viewBox="{_fmt(min_x)} {_fmt(min_y)} '
+            f'<svg xmlns="http://www.w3.org/2000/svg" {size_attrs} '
+            f'viewBox="{_fmt(min_x)} {_fmt(min_y)} '
             f'{_fmt(width)} {_fmt(height)}">',
             *self.courtyard,
             *self.fab,
@@ -406,12 +421,17 @@ class _Renderer:
         return "".join(svg), width, height
 
 
-def render_footprint_svg(footprint: Footprint) -> Tuple[str, float, float]:
+def render_footprint_svg(
+    footprint: Footprint, width_pt=None, height_pt=None
+) -> Tuple[str, float, float]:
     """Render a KiCad footprint (parsed by kiutils) as a top-view SVG image.
 
     Returns the SVG document as a string, plus its width and height in mm.
+    ``width_pt``/``height_pt`` set the SVG width/height attributes in points
+    (the missing one is derived from the aspect ratio); without them the
+    attributes state the natural size in mm.
     """
-    return _Renderer(footprint).run()
+    return _Renderer(footprint).run(width_pt=width_pt, height_pt=height_pt)
 
 
 def footprint_image(spec: Dict):
@@ -450,7 +470,19 @@ def footprint_image(spec: Dict):
         )
 
     footprint = Footprint.from_file(str(footprint_file))
-    svg, width_mm, height_mm = render_footprint_svg(footprint)
+    _, width_mm, height_mm = render_footprint_svg(footprint)
+
+    width = spec.get("width")
+    height = spec.get("height")
+    if width is None and height is not None:
+        width = round(int(height) * width_mm / height_mm)
+    elif width is None:
+        width = DEFAULT_IMAGE_WIDTH
+    if height is None:
+        height = round(int(width) * height_mm / width_mm)
+    svg, _, _ = render_footprint_svg(
+        footprint, width_pt=int(width), height_pt=int(height)
+    )
 
     # Cache the rendered SVG, one file per unique rendering
     cache_dir = Path(tempfile.gettempdir()) / "wireviz-footprints"
@@ -460,8 +492,6 @@ def footprint_image(spec: Dict):
     if not svg_file.exists():
         svg_file.write_text(svg, encoding="utf-8")
 
-    width = spec.get("width") or DEFAULT_IMAGE_WIDTH
-    height = spec.get("height") or round(width * height_mm / width_mm)
     return Image(
         src=str(svg_file),
         width=int(width),

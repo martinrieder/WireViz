@@ -8,7 +8,11 @@ import pytest
 
 from kiutils.symbol import SymbolLib
 
-from wireviz.wv_symbol import render_symbol_svg, symbol_image
+from wireviz.wv_symbol import (
+    DEFAULT_IMAGE_WIDTH,
+    render_symbol_svg,
+    symbol_image,
+)
 
 FIXTURE = (
     Path(__file__).parent.parent
@@ -48,6 +52,19 @@ def test_render_symbol_svg(library, symbol):
     assert width_mm > height_mm
 
 
+def test_render_symbol_svg_size_in_points(library, symbol):
+    _, width_mm, height_mm = render_symbol_svg(symbol, library)
+    svg, _, _ = render_symbol_svg(symbol, library, width_pt=120)
+    # the SVG declares its size in points, matching the requested size
+    assert 'width="120pt"' in svg
+    assert f'height="{round(120 * height_mm / width_mm)}pt"' in svg
+    # the viewBox keeps the natural millimeter coordinates
+    assert 'viewBox="' in svg
+    svg, _, _ = render_symbol_svg(symbol, library, height_pt=60)
+    assert f'width="{round(60 * width_mm / height_mm)}pt"' in svg
+    assert 'height="60pt"' in svg
+
+
 def test_symbol_image():
     image = symbol_image(
         {"library": str(FIXTURE), "part": "DemoHeader_1x04", "width": 150}
@@ -57,6 +74,25 @@ def test_symbol_image():
     assert image.width == 150
     assert image.height > 0
     # height follows the symbol aspect ratio (wider than tall)
+    assert image.width > image.height
+    # the rendered SVG declares exactly the requested size in points
+    svg = Path(image.src).read_text(encoding="utf-8")
+    assert f'width="{image.width}pt"' in svg
+    assert f'height="{image.height}pt"' in svg
+
+
+def test_symbol_image_default_size():
+    image = symbol_image({"library": str(FIXTURE), "part": "DemoHeader_1x04"})
+    assert image.width == DEFAULT_IMAGE_WIDTH
+    assert image.height > 0
+
+
+def test_symbol_image_height_only():
+    image = symbol_image(
+        {"library": str(FIXTURE), "part": "DemoHeader_1x04", "height": 60}
+    )
+    assert image.height == 60
+    # width follows the symbol aspect ratio (wider than tall)
     assert image.width > image.height
 
 

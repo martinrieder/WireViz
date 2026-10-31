@@ -8,7 +8,11 @@ import pytest
 
 from kiutils.footprint import Footprint
 
-from wireviz.wv_footprint import footprint_image, render_footprint_svg
+from wireviz.wv_footprint import (
+    DEFAULT_IMAGE_WIDTH,
+    footprint_image,
+    render_footprint_svg,
+)
 
 FIXTURE = (
     Path(__file__).parent.parent
@@ -41,6 +45,19 @@ def test_render_footprint_svg(footprint):
     assert width_mm > height_mm
 
 
+def test_render_footprint_svg_size_in_points(footprint):
+    _, width_mm, height_mm = render_footprint_svg(footprint)
+    svg, _, _ = render_footprint_svg(footprint, width_pt=120)
+    # the SVG declares its size in points, matching the requested size
+    assert 'width="120pt"' in svg
+    assert f'height="{round(120 * height_mm / width_mm)}pt"' in svg
+    # the viewBox keeps the natural millimeter coordinates
+    assert 'viewBox="' in svg
+    svg, _, _ = render_footprint_svg(footprint, height_pt=39)
+    assert f'width="{round(39 * width_mm / height_mm)}pt"' in svg
+    assert 'height="39pt"' in svg
+
+
 def test_footprint_image():
     image = footprint_image(
         {"library": str(FIXTURE.parent), "part": FIXTURE.stem, "width": 150}
@@ -50,6 +67,25 @@ def test_footprint_image():
     assert image.width == 150
     assert image.height > 0
     # height follows the footprint aspect ratio (wider than tall)
+    assert image.width > image.height
+    # the rendered SVG declares exactly the requested size in points
+    svg = Path(image.src).read_text(encoding="utf-8")
+    assert f'width="{image.width}pt"' in svg
+    assert f'height="{image.height}pt"' in svg
+
+
+def test_footprint_image_default_size():
+    image = footprint_image({"library": str(FIXTURE.parent), "part": FIXTURE.stem})
+    assert image.width == DEFAULT_IMAGE_WIDTH
+    assert image.height > 0
+
+
+def test_footprint_image_height_only():
+    image = footprint_image(
+        {"library": str(FIXTURE.parent), "part": FIXTURE.stem, "height": 39}
+    )
+    assert image.height == 39
+    # width follows the footprint aspect ratio (wider than tall)
     assert image.width > image.height
 
 
