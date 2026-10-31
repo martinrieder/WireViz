@@ -539,7 +539,8 @@ metadata:
 
   template:
     name: din-6771    
-    sheetsize: A4```
+    sheetsize: A4
+```
 
 ![](tutorial09.png)
 
