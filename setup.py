@@ -22,6 +22,7 @@ setup(
         "pyyaml",
         "pillow",
         "graphviz",
+        "kiutils",
     ],
     license="GPLv3",
     keywords="cable connector hardware harness wiring wiring-diagram wiring-harness",

@@ -152,6 +152,7 @@ class Connector:
     subtype: Optional[MultilineHypertext] = None
     pincount: Optional[int] = None
     image: Optional[Image] = None
+    footprint: Optional[Dict] = None  # KiCad footprint, rendered as image
     notes: Optional[MultilineHypertext] = None
     pins: List[Pin] = field(default_factory=list)
     pinlabels: List[Pin] = field(default_factory=list)
@@ -167,6 +168,17 @@ class Connector:
     def __post_init__(self) -> None:
         if isinstance(self.image, dict):
             self.image = Image(**self.image)
+
+        if self.footprint is not None:
+            if self.image is not None:
+                raise Exception(
+                    "Only one of image or footprint may be specified"
+                )
+            # Imported here to avoid a circular import and to keep the
+            # optional KiCad footprint rendering out of the core path
+            from wireviz.wv_footprint import footprint_image
+
+            self.image = footprint_image(self.footprint)
 
         self.ports_left = False
         self.ports_right = False

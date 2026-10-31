@@ -1,5 +1,6 @@
 click
 graphviz
+kiutils
 pillow
 pyyaml
 setuptools
