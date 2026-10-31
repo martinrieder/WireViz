@@ -1,4 +1,4 @@
-successfully downloaded text file (SHA: 431535c252438637741c5fef178e8b654a987d19)# WireViz Syntax
+# WireViz Syntax
 
 ## Main sections
 

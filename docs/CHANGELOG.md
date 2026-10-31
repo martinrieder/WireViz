@@ -1,4 +1,4 @@
-successfully downloaded text file (SHA: 1e12b4bec49555761ea220720f4cbfbe9ea7baa7)# Change Log
+# Change Log
 
 ## [Unreleased]
 
