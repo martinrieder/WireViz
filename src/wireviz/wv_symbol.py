@@ -28,7 +28,9 @@ COLOR_TEXT = "#333333"  # pin numbers and names
 
 DEFAULT_LINE_WIDTH = 0.254  # mm, KiCad's default for symbol graphics
 DEFAULT_FONT_SIZE = 1.27  # mm, KiCad's default for pin name/number text
-DEFAULT_IMAGE_WIDTH = 200  # points, like WireViz image width attribute
+DEFAULT_IMAGE_WIDTH = 120  # points, like WireViz image width attribute;
+# sized to fit within a typical connector node, rendering KiCad's default
+# 1.27 mm pin text at roughly the size of the diagram's table text
 MARGIN = 0.25  # mm between symbol bounding box and SVG border
 PIN_NAME_OFFSET = 0.508  # mm, KiCad's default pin name offset
 PIN_NUMBER_OFFSET = 0.8  # mm, distance between lead and pin number

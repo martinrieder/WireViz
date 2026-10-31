@@ -556,7 +556,7 @@ footprint:
   # optional parameters:
   caption: <str>        # text to display below the footprint image
   bgcolor: <color>      # Background color of entry in diagram component box
-  width: <int>          # range: 1~65535; unit: points; default: 200
+  width: <int>          # range: 1~65535; unit: points; default: 120
   height: <int>         # range: 1~65535; unit: points
   # if only one dimension (width/height) is specified,
   # the other is calculated from the footprint's aspect ratio.
@@ -576,7 +576,7 @@ symbol:
   # optional parameters:
   caption: <str>        # text to display below the symbol image
   bgcolor: <color>      # Background color of entry in diagram component box
-  width: <int>          # range: 1~65535; unit: points; default: 200
+  width: <int>          # range: 1~65535; unit: points; default: 120
   height: <int>         # range: 1~65535; unit: points
   # if only one dimension (width/height) is specified,
   # the other is calculated from the symbol's aspect ratio.

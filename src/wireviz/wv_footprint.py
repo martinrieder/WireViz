@@ -31,7 +31,9 @@ COLOR_TEXT_ON_BACKGROUND = "#333333"  # pad numbers on non-copper pads
 
 DEFAULT_LINE_WIDTH = 0.12  # mm, KiCad's default for footprint graphics
 DEFAULT_PAD_ROUNDRECT_RATIO = 0.25
-DEFAULT_IMAGE_WIDTH = 200  # points, like WireViz image width attribute
+DEFAULT_IMAGE_WIDTH = 120  # points, like WireViz image width attribute;
+# sized to fit within a typical connector node, rendering KiCad's default
+# 1.27 mm pin text at roughly the size of the diagram's table text
 MARGIN = 0.25  # mm between footprint bounding box and SVG border
 
 # Keys allowed in the YAML footprint attribute
