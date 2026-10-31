@@ -155,6 +155,16 @@ def parse(
                                 footprint["library"] = smart_file_resolve(
                                     library, image_paths
                                 )
+                        # A KiCad symbol library can also be referenced
+                        # with a relative path, just like an image file.
+                        symbol = attribs.get("symbol")
+                        if isinstance(symbol, dict):
+                            library = symbol.get("library")
+                            if library and not Path(library).is_absolute():
+                                # resolve relative symbol library path
+                                symbol["library"] = smart_file_resolve(
+                                    library, image_paths
+                                )
                         if sec == "connectors":
                             template_connectors[key] = attribs
                         elif sec == "cables":

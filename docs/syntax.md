@@ -50,6 +50,7 @@ tweak:  # optional tweaking of .gv output
   color: <color>  # see below
   image: <image>  # see below
   footprint: <footprint>  # see below
+  symbol: <symbol>  # see below
   notes: <str>   
 
   # product information (all optional)
@@ -564,6 +565,26 @@ footprint:
 Relative library paths are resolved like image paths (see above). Rendering requires the `kiutils` package. Only front-side layers (`F.SilkS`, `F.Fab`, `F.Courtyard`) and copper pads are drawn; `fp_text` items are not rendered.
 
 
+## KiCad symbols
+
+Connectors can also show a rendered schematic view of a KiCad symbol, taken from a KiCad symbol library (a `.kicad_sym` file). It is rendered as an SVG image showing the symbol's body graphics, the pin leads, and the pin numbers and names, and is included in the connector node like any other image (see above).
+
+```yaml
+symbol:
+  library: <path>       # path to a KiCad symbol library file (.kicad_sym)
+  part: <str>           # symbol name within the library; required
+  # optional parameters:
+  caption: <str>        # text to display below the symbol image
+  bgcolor: <color>      # Background color of entry in diagram component box
+  width: <int>          # range: 1~65535; unit: points; default: 200
+  height: <int>         # range: 1~65535; unit: points
+  # if only one dimension (width/height) is specified,
+  # the other is calculated from the symbol's aspect ratio.
+```
+
+Relative library paths are resolved like image paths (see above). Rendering requires the `kiutils` package. Only the body graphics, pin leads, pin numbers, and pin names are drawn; symbol properties (e.g. `Reference` or `Value`) are not rendered.
+
+
 ## Multiline strings
 
 The following attributes accept multiline strings:
@@ -576,6 +597,7 @@ The following attributes accept multiline strings:
 - `spn`
 - `image.caption`
 - `footprint.caption`
+- `symbol.caption`
 - `tweak.append`
 
 ### Method 1

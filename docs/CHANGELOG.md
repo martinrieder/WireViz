@@ -5,6 +5,7 @@
 ### New features
 
 - Render KiCad footprints (`.kicad_mod` files from `.pretty` footprint libraries) as connector images using the new `footprint` attribute (requires the new `kiutils` dependency)
+- Show a schematic view of KiCad symbols (`.kicad_sym` symbol libraries) as connector images using the new `symbol` attribute (requires the `kiutils` dependency)
 
 ## [0.4.1] (2024-07-13)
 
